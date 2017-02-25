@@ -25,6 +25,11 @@
               (following-scores creds user)
               (follower-scores creds user)))
 
+(defn credit-ids
+  "Add 2 points to each user."
+  [scores ids]
+  (reduce (fn [acc e] (update acc e (fnil + 0) 2)) scores ids))
+
 (defn favorited
   "Gets a list of user IDs where the provided user has favorited their tweets."
   [creds user]
@@ -33,7 +38,14 @@
       (map #(get-in % [:user :id]) body)
       [])))
 
-(defn credit-favorites
-  "Add 2 points to each user who has been favorited."
-  [scores ids]
-  (reduce (fn [acc e] (update acc e (fnil + 0) 2)) scores ids))
+(defn retweeted-users
+  "Extract retweeted user IDs from a timeline body."
+  [body]
+  (map #(get-in % [:retweeted_status :user :id]) body))
+
+(defn user-mentions
+  "Extract mentioned user IDs from a timeline body."
+  [body]
+  (->> body
+       (map #(get-in % [:entities :user_mentions]))
+       (mapcat #(map :id %))))
