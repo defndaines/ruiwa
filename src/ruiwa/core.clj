@@ -24,3 +24,16 @@
   (merge-with +
               (following-scores creds user)
               (follower-scores creds user)))
+
+(defn favorited
+  "Gets a list of user IDs where the provided user has favorited their tweets."
+  [creds user]
+  (let [{:keys [status body]} (twit/user-favorites creds user)]
+    (if (= 200 (:code status))
+      (map #(get-in % [:user :id]) body)
+      [])))
+
+(defn credit-favorites
+  "Add 2 points to each user who has been favorited."
+  [scores ids]
+  (reduce (fn [acc e] (update acc e (fnil + 0) 2)) scores ids))
