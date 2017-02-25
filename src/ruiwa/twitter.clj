@@ -44,8 +44,14 @@
                               :params {:screen-name user :include-rts true :count 200}))
 
 ;; [:body :ids []]
-(defn user-friends 
-  "Returns a cursored collection of user IDs for every user the specified user is following."
+(defn following
+  "Returns a collection of user IDs for every user the specified user is following."
   [creds user]
   (api/friends-ids :oauth-creds creds
                    :params {:screen-name user :count 5000}))
+
+(defn followers
+  "Returns a collection of user IDs for every user following the specified user."
+  [creds user]
+  (api/followers-ids :oauth-creds creds
+                     :params {:screen-name user :count 5000}))
