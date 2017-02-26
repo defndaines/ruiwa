@@ -69,6 +69,3 @@
               (follower-scores creds user)
               (favorited creds user)
               (timelined creds user)))
-
-;; Get the top five:
-;; (take 5 (sort-by val > score-map))
