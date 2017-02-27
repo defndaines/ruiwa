@@ -17,11 +17,11 @@
 ;; [:body :statuses_count]
 ;; [:body :favourites_count]
 (defn user-info
-  "Returns a variety of information about the user. The author’s most recent Tweet
+  "Returns a variety of information about the user. The user’s most recent Tweet
   will be returned inline when possible."
   [creds user]
   (api/users-show :oauth-creds creds
-                  :params {:screen-name user :include-entities true}))
+                  :params {:user-id user :include-entities true}))
 
 ;; :body -> [{}]
 ;; :in_reply_to_status_id_str

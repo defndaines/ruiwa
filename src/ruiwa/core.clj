@@ -17,8 +17,16 @@
   (let [{api-key :app-consumer-key api-secret :app-consumer-secret} config]
     (oauth/make-oauth-creds api-key api-secret)))
 
+(defn- select-info [creds id score]
+  (merge
+    {:score score}
+    (select-keys
+      (:body (twitter/user-info creds id))
+      [:description :profile_image_url_https :name :screen_name :url])))
+
 (defn -main [& args]
   (if-let [[conf-file user & _] args]
     (let [config (read-conf conf-file)
           creds (gen-creds config)]
-      (println (take 5 (sort-by val > (score/friends creds user)))))))
+      (doseq [[id score] (take 5 (sort-by val > (score/friends creds user)))]
+        (println (select-info creds id score))))))
