@@ -7,4 +7,5 @@
                  [twitter-api "0.8.0"]]
   :main ^:skip-aot ruiwa.core
   :target-path "target/%s"
+  :resource-paths ["resources"]
   :profiles {:uberjar {:aot :all}})
