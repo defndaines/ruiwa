@@ -1,4 +1,4 @@
-# ruiwa
+# Ruiwa
 
 類は友を呼ぶ
 
